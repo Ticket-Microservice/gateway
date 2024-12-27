@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package TicketAuthentications;
+
+enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+    PREFER_NOT_SAY = 2;
+}
+
+message RegisterRequest{
+    string email=1;
+    string pwd=2;
+}
+
+message LoginRequest{
+    string email=1;
+    string pwd=2;
+}
+
+message LoginResponse{
+    string jwt=1;
+}
+
+message LogoutRequest{
+    string jwt=1;
+}
+
+message UpdateProfileRequest{
+    string no_hp=1;
+    string name=2;
+    string surname=3;
+    Gender gender=4;
+}
+
+message BlankResponse{}
+
+service Register {
+    // Greeting function
+    rpc Register (RegisterRequest) returns (BlankResponse) {}
+    rpc UpdateProfile (UpdateProfileRequest) returns (BlankResponse) {}
+    rpc Login (LoginRequest) returns (LoginResponse) {}
+    rpc Logout (LogoutRequest) returns (BlankResponse) {}
+}

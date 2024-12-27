@@ -14,7 +14,8 @@ defmodule Gateway.Application do
       # Start a worker by calling: Gateway.Worker.start_link(arg)
       # {Gateway.Worker, arg},
       # Start to serve requests, typically the last entry
-      GatewayWeb.Endpoint
+      GatewayWeb.Endpoint,
+      GatewayWeb.GRPCClient
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

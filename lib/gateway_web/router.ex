@@ -5,8 +5,29 @@ defmodule GatewayWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug Gateway.GuardianPipeline
+  end
+
   scope "/api", GatewayWeb do
     pipe_through :api
+
+    scope "/public" do
+      get "/", LandingPage, :index
+      # get "/flight/airports", Flight, :get_airport
+      # get "/flight/class", Flight, :get_flight_class
+      # post "/flight/tickets", Flight, :get_ticket
+      # post "/auth/signup", Authentication, :sign_up
+      post "/auth/signin", Controller.Authentication, :login
+    end
+
+    scope "/private" do
+      pipe_through [:auth]
+      get "/", LandingPage, :index
+
+      # get "/users/profile", UserProfile, :get_profile
+      # post "/orders", Orders, :create
+    end
   end
 
   # Enable LiveDashboard in development

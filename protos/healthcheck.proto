@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package HealthCheck;
+
+message BlankResponse{}
+
+service HealthCheck {
+    // Greeting function
+    rpc CheckHealth (BlankResponse) returns (BlankResponse) {}
+}

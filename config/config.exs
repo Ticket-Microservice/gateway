@@ -21,6 +21,17 @@ config :gateway, GatewayWeb.Endpoint,
   pubsub_server: Gateway.PubSub,
   live_view: [signing_salt: "MLbT/+KW"]
 
+config :authentication, Gateway.Guardian,
+  issuer: "Authentication",
+  secret_key: System.get_env("SECRET_KEY_GUARDIAN"),
+  # serializer: Ticket_BE.GuardianSerializer,
+  allowed_algos: ["HS512"] # optional
+  # verify_module: Guardian.JWT,  # optional
+  # issuer: "Ticket_BE", # optional
+  # # ttl: { 1, :days },
+  # allowed_drift: 2000,
+  # verify_issuer: true # optional
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
