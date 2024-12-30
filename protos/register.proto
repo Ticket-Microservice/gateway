@@ -33,6 +33,15 @@ message UpdateProfileRequest{
     Gender gender=4;
 }
 
+message CheckTokenRequest{
+    string jwt=1;
+    string user_id=2;
+}
+
+message CheckTokenResponse{
+    bool isValid=1;
+}
+
 message BlankResponse{}
 
 service Register {
@@ -41,4 +50,5 @@ service Register {
     rpc UpdateProfile (UpdateProfileRequest) returns (BlankResponse) {}
     rpc Login (LoginRequest) returns (LoginResponse) {}
     rpc Logout (LogoutRequest) returns (BlankResponse) {}
+    rpc CheckToken (CheckTokenRequest) returns (CheckTokenResponse) {}
 }

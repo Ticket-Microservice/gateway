@@ -314,6 +314,101 @@ defmodule TicketAuthentications.UpdateProfileRequest do
   field :gender, 4, type: TicketAuthentications.Gender, enum: true
 end
 
+defmodule TicketAuthentications.CheckTokenRequest do
+  @moduledoc false
+
+  use Protobuf, syntax: :proto3, protoc_gen_elixir_version: "0.13.0"
+
+  def descriptor do
+    # credo:disable-for-next-line
+    %Google.Protobuf.DescriptorProto{
+      name: "CheckTokenRequest",
+      field: [
+        %Google.Protobuf.FieldDescriptorProto{
+          name: "jwt",
+          extendee: nil,
+          number: 1,
+          label: :LABEL_OPTIONAL,
+          type: :TYPE_STRING,
+          type_name: nil,
+          default_value: nil,
+          options: nil,
+          oneof_index: nil,
+          json_name: "jwt",
+          proto3_optional: nil,
+          __unknown_fields__: []
+        },
+        %Google.Protobuf.FieldDescriptorProto{
+          name: "user_id",
+          extendee: nil,
+          number: 2,
+          label: :LABEL_OPTIONAL,
+          type: :TYPE_STRING,
+          type_name: nil,
+          default_value: nil,
+          options: nil,
+          oneof_index: nil,
+          json_name: "userId",
+          proto3_optional: nil,
+          __unknown_fields__: []
+        }
+      ],
+      nested_type: [],
+      enum_type: [],
+      extension_range: [],
+      extension: [],
+      options: nil,
+      oneof_decl: [],
+      reserved_range: [],
+      reserved_name: [],
+      __unknown_fields__: []
+    }
+  end
+
+  field :jwt, 1, type: :string
+  field :user_id, 2, type: :string, json_name: "userId"
+end
+
+defmodule TicketAuthentications.CheckTokenResponse do
+  @moduledoc false
+
+  use Protobuf, syntax: :proto3, protoc_gen_elixir_version: "0.13.0"
+
+  def descriptor do
+    # credo:disable-for-next-line
+    %Google.Protobuf.DescriptorProto{
+      name: "CheckTokenResponse",
+      field: [
+        %Google.Protobuf.FieldDescriptorProto{
+          name: "isValid",
+          extendee: nil,
+          number: 1,
+          label: :LABEL_OPTIONAL,
+          type: :TYPE_BOOL,
+          type_name: nil,
+          default_value: nil,
+          options: nil,
+          oneof_index: nil,
+          json_name: "isValid",
+          proto3_optional: nil,
+          __unknown_fields__: []
+        }
+      ],
+      nested_type: [],
+      enum_type: [],
+      extension_range: [],
+      extension: [],
+      options: nil,
+      oneof_decl: [],
+      reserved_range: [],
+      reserved_name: [],
+      __unknown_fields__: []
+    }
+  end
+
+  field :isValid, 1, type: :bool
+end
+
 defmodule TicketAuthentications.BlankResponse do
   @moduledoc false
 
@@ -406,6 +501,21 @@ defmodule TicketAuthentications.Register.Service do
           client_streaming: false,
           server_streaming: false,
           __unknown_fields__: []
+        },
+        %Google.Protobuf.MethodDescriptorProto{
+          name: "CheckToken",
+          input_type: ".TicketAuthentications.CheckTokenRequest",
+          output_type: ".TicketAuthentications.CheckTokenResponse",
+          options: %Google.Protobuf.MethodOptions{
+            deprecated: false,
+            idempotency_level: :IDEMPOTENCY_UNKNOWN,
+            uninterpreted_option: [],
+            __pb_extensions__: %{},
+            __unknown_fields__: []
+          },
+          client_streaming: false,
+          server_streaming: false,
+          __unknown_fields__: []
         }
       ],
       options: nil,
@@ -422,6 +532,10 @@ defmodule TicketAuthentications.Register.Service do
   rpc :Login, TicketAuthentications.LoginRequest, TicketAuthentications.LoginResponse
 
   rpc :Logout, TicketAuthentications.LogoutRequest, TicketAuthentications.BlankResponse
+
+  rpc :CheckToken,
+      TicketAuthentications.CheckTokenRequest,
+      TicketAuthentications.CheckTokenResponse
 end
 
 defmodule TicketAuthentications.Register.Stub do
