@@ -40,7 +40,7 @@ defmodule GatewayWeb.GRPCClient do
   @impl true
   def handle_call({:call_service, method, request}, _from, %{channel: nil} = state) do
     # Return an error if not connected
-    {:reply, {:error, :login_not_connected}, state}
+    {:reply, {:error, :auth_not_connected}, state}
   end
 
   def handle_call({:call_service, method, request}, _from, %{channel: channel} = state) do
@@ -55,10 +55,11 @@ defmodule GatewayWeb.GRPCClient do
       {:ok, _result} ->
         {:reply, response, state}
 
-      {:error, _reason} ->
+      {:error, reason} ->
+        IO.inspect(reason, label: "reason")
         # Mark the connection as failed and schedule reconnect
         # schedule_reconnect()
-        {:reply, {:error, :login_connection_failed}, %{state | channel: nil}}
+        {:reply, {:error, reason.message}, %{state | channel: nil}}
     end
   end
 

@@ -17,7 +17,7 @@ defmodule GatewayWeb.Router do
       # get "/flight/airports", Flight, :get_airport
       # get "/flight/class", Flight, :get_flight_class
       # post "/flight/tickets", Flight, :get_ticket
-      # post "/auth/signup", Authentication, :sign_up
+      post "/auth/signup", Controller.Authentication, :register
       post "/auth/signin", Controller.Authentication, :login
     end
 

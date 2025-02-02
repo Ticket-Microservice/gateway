@@ -45,4 +45,44 @@ defmodule GatewayWeb.Controller.Authentication do
         |> json(%{message: e.message})
     end
   end
+
+
+  def register(conn, params) do
+    try do
+      request = %LoginRequest{
+        email: params["email"],
+        pwd: params["pwd"]
+      }
+
+      # {:ok, channel} = GRPC.Stub.connect(System.get_env("AUTH_SERVICE"))
+      # resp= channel |> RegisterStub.login(request)
+
+      resp = GRPCClient.call_service({RegisterStub, :register}, request)
+      |> IO.inspect()
+
+      case resp do
+        {:ok, response} ->
+          conn
+          |> put_status(:ok)
+          |> json(%{
+            data: %{
+              email: params["email"]
+            },
+            message: "success"
+          })
+
+        {:error, msg} ->
+          conn
+          |> put_status(:internal_server_error)
+          |> json(%{data: %{}, errors: [msg]})
+      end
+    rescue
+      e ->
+        Logger.error(e)
+
+        conn
+        |> put_status(:internal_server_error)
+        |> json(%{message: e.message})
+    end
+  end
 end
